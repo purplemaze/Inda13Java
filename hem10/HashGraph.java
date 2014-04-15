@@ -1,7 +1,6 @@
 package kth.csc.inda;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -224,31 +223,27 @@ public class HashGraph implements Graph {
 	 */
 	@Override
 	public String toString() {
-		@SuppressWarnings("rawtypes")
-		Iterator it;
-		String a = "{";
-
+		StringBuilder sb = new StringBuilder();
+		sb.append("{");	
 		for(int i = 0; i < edges.length; i++) {
-
 			if(edges[i] != null) {
-				it = edges[i].entrySet().iterator();
-
+				Iterator<Map.Entry<Integer, Integer>> it;	
+				it = edges[i].entrySet().iterator(); //returns a Iterator<Map.Entry<Integer,Integer>>> 
 				while(it.hasNext()) {
-					@SuppressWarnings("rawtypes")
-					Map.Entry pairs = (Map.Entry) it.next();
-					if((Integer) pairs.getValue() == -1) {
-						a += "(" + i + "," + pairs.getKey() + "), ";
+					Map.Entry<Integer, Integer> entry =  it.next();
+					if(entry.getValue() == 0) { //if there is no cost only add the key
+						sb.append("(" + i + "," + entry.getKey() + "), ");
 					}else {
-						a += "(" + i + "," + pairs.getKey() + "," + pairs.getValue() + "), ";
+						sb.append("(" + i + "," + entry.getKey() + "," + entry.getValue() + "), ");
 
 					}
 				}
 			}
 		}
-		if(a.length() > 1) {
-			a = a.substring(0, a.length()-2);
-		}
-		return a + "}";
+		if (numEdges > 0)
+			sb.setLength(sb.length() - 2); // Remove trailing ", "
+		sb.append("}");
+		return sb.toString();
 
 
 	}
