@@ -225,13 +225,13 @@ public class HashGraph implements Graph {
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("{");	
-		for(int i = 0; i < edges.length; i++) {
+		for(int i = 0; i < numVertices(); i++) {
 			if(edges[i] != null) {
 				Iterator<Map.Entry<Integer, Integer>> it;	
 				it = edges[i].entrySet().iterator(); //returns a Iterator<Map.Entry<Integer,Integer>>> 
 				while(it.hasNext()) {
 					Map.Entry<Integer, Integer> entry =  it.next();
-					if(entry.getValue() == 0) { //if there is no cost only add the key
+					if(entry.getValue() == -1) { //if there is NO_COST only add the key
 						sb.append("(" + i + "," + entry.getKey() + "), ");
 					}else {
 						sb.append("(" + i + "," + entry.getKey() + "," + entry.getValue() + "), ");
@@ -244,7 +244,6 @@ public class HashGraph implements Graph {
 			sb.setLength(sb.length() - 2); // Remove trailing ", "
 		sb.append("}");
 		return sb.toString();
-
 
 	}
 	
