@@ -92,18 +92,18 @@ public class RandomGraph {
 	
 	public static void main(String[] arg) {
 		
-		HashGraph hgraph = new HashGraph(1000);
-		MatrixGraph mGraph = new MatrixGraph(1000);
+		HashGraph hgraph = new HashGraph(4999);
+		MatrixGraph mGraph = new MatrixGraph(4999);
 		
 		long startTime = System.currentTimeMillis();
 		@SuppressWarnings("unused")
-		RandomGraph rGraph = new RandomGraph(1000, mGraph);
+		RandomGraph rGraph = new RandomGraph(4999, mGraph);
 		long estimatedTime = System.currentTimeMillis() - startTime;
 		System.out.println("MatrixGraph took: " + estimatedTime + " ms : " + "Number of components: " + RandomGraph.numberOfComponents + " \nSize of biggest component: " + RandomGraph.BiggestComponent);
 		
 		startTime = System.currentTimeMillis();
 		@SuppressWarnings("unused")
-		RandomGraph a = new RandomGraph(1000, hgraph);
+		RandomGraph a = new RandomGraph(4999, hgraph);
 		estimatedTime = System.currentTimeMillis() - startTime;
 		System.out.println("HashGraph took: " + estimatedTime + " ms : " + "Number of components: " + RandomGraph.numberOfComponents + " \nSize of biggest component: " + RandomGraph.BiggestComponent);
 	
