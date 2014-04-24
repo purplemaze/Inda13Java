@@ -19,13 +19,13 @@ public class Path {
 	private int FROM;
 	private int TO;
 	private Scanner sc;
-	LinkedList<Integer> path;
+	LinkedList<Integer> pathList;
 	
 	private Path(int FROM, int TO) throws FileNotFoundException {
 		sc = new Scanner(new File("distances.txt"));
 		this.FROM = FROM;
 		this.TO = TO;
-		path = new LinkedList<Integer>();
+		pathList = new LinkedList<Integer>();
 	}
 	
     /**
@@ -68,24 +68,18 @@ public class Path {
     		System.out.println("You are allready at that node");
     	}
     	
+    	pathList.add(FROM);
+    	visited[FROM] = true;
+    	
     	if(visited[FROM] == true) {
     		return;
     	}
+
+    	for (VertexIterator it = graph.neighbors(FROM); it.hasNext();) {
+    		int node = it.next();
+    		bfs(graph, visited, node, TO);	
+    	}	
     	
-    	LinkedList<Integer> path = new LinkedList<Integer>();
-    	path.addFirst(FROM);
-    	
-    	/*    
-    	Q = new empty queue
-    	Mark v as visited.
-    	Q.enqueue(v) // Add v to end of queue
-    	while Q is not empty
-    		a = Q.dequeue() // Remove a from top of queue.
-    	    // Here you may perform some operation on a.
-    	    for all unvisited neighbors x of a
-    	    	Mark x as visited.
-    	         Q.enqueue(x)
-    	  */
     }
     
     /**
