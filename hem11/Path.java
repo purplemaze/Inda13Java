@@ -3,6 +3,8 @@ import java.io.FileNotFoundException;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Scanner;
+import java.util.Stack;
+
 import graph.*;
 /**
  * java Path FROM TO
@@ -26,6 +28,21 @@ public class Path {
 		creatGraph();
         boolean[] visited = new boolean[hgraph.numEdges()];
     	bfs(hgraph, visited, FROM, TO);
+	}
+	
+	/**
+	 * Privat klass som beskriver en nod
+	 * @author Daniel C
+	 * @version 2014-02-18
+	 *
+	 */
+	class Node {
+		public Integer value;
+		public Node parent;
+		public Node(Integer value, Node parent) {
+			this.value = value;
+			this.parent = parent;
+		}
 	}
 	
     /**
@@ -62,29 +79,32 @@ public class Path {
      * @param FROM
      * @param TO
      */
-    private void bfs(Graph graph, boolean[] visited, int FROM, int TO) {
-    	
-    	Queue<Integer> q = new LinkedList<Integer>();
-    	LinkedList<Integer> path = new LinkedList<Integer>();
-    	int a = FROM;
+    private void bfs(Graph graph, boolean[] visited, int FROM, int TO) {  	
+    	Queue<Node> q = new LinkedList<Node>();
+    	Node a = new Node(FROM, null);
     	q.add(a);
-    	path.add(a);
-    	visited[a] = true;
-    	while(!q.isEmpty() && a != TO ){
+    	visited[FROM] = true;
+    	while(!q.isEmpty() && a.value != TO ){
     		a = q.remove();
-    		VertexIterator it = graph.neighbors(a);
+    		VertexIterator it = graph.neighbors(a.value);
     		while(it.hasNext()) {
     			int b = it.next();
     			if(visited[b] != true) { 
     				visited[b] = true;
-    				q.add(b);
+    				Node c = new Node(b, a);
+    				q.add(c);
     			}
     		}
     	}
-    	//String
-    	for(int n = 0; n < visited.length; n++) {
-    		System.out.println(visited[n]);
+    	Stack<Integer> path = new Stack<Integer>();  
+    	while(a.parent != null) {
+    		path.push(a.value);
+    		a = a.parent;
+    		if(a.value != null) {
+    			path.push(a.value);
+    		}
     	}
+    	System.out.println("Path: " + path);
     	
     }
     
