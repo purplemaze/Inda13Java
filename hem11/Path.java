@@ -25,7 +25,7 @@ public class Path {
 		creatGraph();
         if(TO >= hgraph.numVertices()) {
         	System.err.println("You can't search for a node that does not exist");
-        } else {
+        }else {
         	boolean[] visited = new boolean[hgraph.numEdges()];
         	bfsPath(hgraph, visited, FROM, TO);
         }
