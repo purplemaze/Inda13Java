@@ -2,7 +2,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 import graph.*;
-
 /**
  * java Path FROM TO
  * FROM och TO är två heltal som anger en startnod och en slutnod i en graf. 
@@ -14,7 +13,6 @@ import graph.*;
  * @version 2014-04-24
  *
  */
-
 public class Path {
     private Graph hgraph;
 	private String FROM;
