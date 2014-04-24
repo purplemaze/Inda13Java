@@ -45,10 +45,9 @@ public class Path {
     }
     
     /**
-     * 
+     * Creates an HashGraph based on the supplied text document  when you create a Path object.
      */
     private void creatGraph() {
-	
     	while(!sc.hasNextInt()){
     		sc.nextLine();
     	}
@@ -67,16 +66,12 @@ public class Path {
     			int b = sc.nextInt();
     			int c = sc.nextInt();
     			hgraph.addBi(a, b, c);
-    		}
-    	            
+    		}          
     	}
     	sc.close();
     	System.out.println(hgraph);
-    	
     }
-    
-    
-    
+     
     /**
      * 
      * @param graph
