@@ -1,5 +1,6 @@
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.LinkedList;
 import java.util.Scanner;
 import graph.*;
 /**
@@ -15,43 +16,30 @@ import graph.*;
  */
 public class Path {
     private Graph hgraph;
-	private String FROM;
-	private String TO;
+	private int FROM;
+	private int TO;
 	private Scanner sc;
+	LinkedList<Integer> path;
 	
-	private Path(String FROM, String TO) throws FileNotFoundException {
+	private Path(int FROM, int TO) throws FileNotFoundException {
 		sc = new Scanner(new File("distances.txt"));
 		this.FROM = FROM;
 		this.TO = TO;
+		path = new LinkedList<Integer>();
 	}
 	
-    /**
-     * Searches the input file (args[1]) for lines containing the
-     * given pattern (args[0]) and prints these lines.
-     * Leaves program with System.exit(n), where n is 0 if successful.
-     */
-    public static void main(String[] args) throws FileNotFoundException {
-        if (args.length != 2) {
-            System.err.printf("Usage: java %s FROM TO%n", Path.class.getSimpleName());
-            System.exit(1); // Unix error handling
-        }
-        final String FROM = args[0];
-        final String TO = args[1];
-
-        Path path = new Path(FROM, TO);
-        path.creatGraph();
-    }
-    
     /**
      * Creates an HashGraph based on the supplied text document  when you create a Path object.
      */
     private void creatGraph() {
+    	//scans for the size
     	while(!sc.hasNextInt()){
     		sc.nextLine();
     	}
     	int size = sc.nextInt();
     	hgraph = new HashGraph(size);
-    	System.out.println(hgraph.numVertices());
+    	
+    	//Scans for integers i, j, and d separated by spaces.
     	while(sc.hasNextLine()) {
     		if(!sc.hasNextInt()){
     			if(sc.hasNextLine())
@@ -60,10 +48,10 @@ public class Path {
     				return;
     			}
     		else {
-    			int a = sc.nextInt();
-    			int b = sc.nextInt();
-    			int c = sc.nextInt();
-    			hgraph.addBi(a, b, c);
+    			int i = sc.nextInt();
+    			int j = sc.nextInt();
+    			int d = sc.nextInt();
+    			hgraph.addBi(i, j, d);
     		}          
     	}
     	sc.close();
@@ -75,7 +63,18 @@ public class Path {
      * @param graph
      * @param vertex
      */
-    public static void bfs(Graph graph, int vertex) {
+    public void bfs(Graph graph, boolean[] visited, int FROM, int TO) {
+    	if(FROM == TO) {
+    		System.out.println("You are allready at that node");
+    	}
+    	
+    	if(visited[FROM] == true) {
+    		return;
+    	}
+    	
+    	LinkedList<Integer> path = new LinkedList<Integer>();
+    	path.addFirst(FROM);
+    	
     	/*    
     	Q = new empty queue
     	Mark v as visited.
@@ -88,4 +87,24 @@ public class Path {
     	         Q.enqueue(x)
     	  */
     }
+    
+    /**
+     * Searches the input file (args[1]) for lines containing the
+     * given pattern (args[0]) and prints these lines.
+     * Leaves program with System.exit(n), where n is 0 if successful.
+     */
+    public static void main(String[] args) throws FileNotFoundException {
+        if (args.length != 2) {
+            System.err.printf("Usage: java %s FROM TO%n", Path.class.getSimpleName());
+            System.exit(1); // Unix error handling
+        }
+        Integer FROM = Integer.parseInt(args[0]);
+        Integer TO = Integer.parseInt(args[1]);
+
+        Path path = new Path(FROM, TO);
+        path.creatGraph();
+        boolean[] visited = new boolean[path.hgraph.numVertices()];
+        path.bfs(path.hgraph, visited, path.FROM, path.TO);
+    }
+    
 }
