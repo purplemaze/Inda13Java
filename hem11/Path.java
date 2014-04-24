@@ -3,7 +3,6 @@ import java.io.FileNotFoundException;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Scanner;
-import java.util.Stack;
 
 import graph.*;
 /**
@@ -20,20 +19,22 @@ import graph.*;
 public class Path {
     private Graph hgraph;
 	private Scanner sc;
-	LinkedList<Integer> path;
 	
 	private Path(int FROM, int TO) throws FileNotFoundException {
 		sc = new Scanner(new File("distances.txt"));
-		path = new LinkedList<Integer>();
 		creatGraph();
-        boolean[] visited = new boolean[hgraph.numEdges()];
-    	bfs(hgraph, visited, FROM, TO);
+        if(TO >= hgraph.numVertices()) {
+        	System.err.println("You can't search for a node that does not exist");
+        } else {
+        	boolean[] visited = new boolean[hgraph.numEdges()];
+        	bfsPath(hgraph, visited, FROM, TO);
+        }
 	}
 	
 	/**
 	 * Privat klass som beskriver en nod
 	 * @author Daniel C
-	 * @version 2014-02-18
+	 * @version 2014-04-25
 	 *
 	 */
 	class Node {
@@ -74,12 +75,16 @@ public class Path {
     /**
      * Breddenförstsökning är en algoritm som också besöker alla hörn i grafen g som ligger i samma komponent som hörnet v. 
      * Hörnen besöks i avståndsordning: först besöks hörnet v, sedan alla grannar till v, sedan deras grannar, etc. 
+     * 
+     * Denna modifierade version undersöker om en nod är besökt och håller koll på dess parent nod.
+     * Sedan skriver den ut den kortaste vägen från FROM till TO.
+     * 
      * @param graph
      * @param visited
      * @param FROM
      * @param TO
      */
-    private void bfs(Graph graph, boolean[] visited, int FROM, int TO) {  	
+    private void bfsPath(Graph graph, boolean[] visited, int FROM, int TO) {  	
     	Queue<Node> q = new LinkedList<Node>();
     	Node a = new Node(FROM, null);
     	q.add(a);
@@ -96,14 +101,12 @@ public class Path {
     			}
     		}
     	}
-    	Stack<Integer> path = new Stack<Integer>();  
+    	LinkedList<Integer> path = new LinkedList<Integer>();  
     	while(a.parent != null) {
-    		path.push(a.value);
+    		path.addFirst(a.value);
     		a = a.parent;
-    		if(a.value != null) {
-    			path.push(a.value);
-    		}
     	}
+    	path.push(FROM);
     	System.out.println("Path: " + path);
     	
     }
