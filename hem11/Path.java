@@ -37,7 +37,7 @@ public class Path {
 	 * @version 2014-04-25
 	 *
 	 */
-	class Node {
+	private class Node {
 		public Integer value;
 		public Node parent;
 		public Node(Integer value, Node parent) {
