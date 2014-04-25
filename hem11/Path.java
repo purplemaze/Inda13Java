@@ -23,7 +23,7 @@ public class Path {
 	private Path(int FROM, int TO) throws FileNotFoundException {
 		sc = new Scanner(new File("distances.txt"));
 		creatGraph();
-        if(TO >= hgraph.numVertices()) {
+        if(TO >= hgraph.numVertices() || FROM < 0) {
         	System.err.println("You can't search for a node that does not exist");
         }else {
         	boolean[] visited = new boolean[hgraph.numEdges()];
